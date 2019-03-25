@@ -69,6 +69,7 @@ export default class MapScreen extends React.Component {
     });
   }
 
+
   render() {
     return (
       <View
