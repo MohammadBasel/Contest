@@ -4,7 +4,7 @@ import { createStackNavigator, createBottomTabNavigator } from 'react-navigation
 
 import TabBarIcon from '../components/TabBarIcon';
 import HomeScreen from '../screens/HomeScreen';
-import LinksScreen from '../screens/LinksScreen';
+import MapScreen from '../screens/LinksScreen';
 import SettingsScreen from '../screens/SettingsScreen';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
@@ -28,13 +28,13 @@ HomeStack.navigationOptions = {
   ),
 };
 
-const LinksStack = createStackNavigator({
-  Links: LinksScreen,
+const MapsStack = createStackNavigator({
+  Maps: MapScreen,
 });
 
-LinksStack.navigationOptions = {
+MapsStack.navigationOptions = {
+  tabBarLabel: 'Maps',
   visible  : false,
-  tabBarLabel: 'Links',
   tabBarIcon: ({ focused }) => (
     <AntDesign
       focused={focused}
@@ -59,7 +59,6 @@ SettingsStack.navigationOptions = {
 
 export default createBottomTabNavigator({
   HomeStack,
-  LinksStack,
-  
+  MapsStack,
   SettingsStack,
 });
