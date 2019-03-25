@@ -11,24 +11,45 @@ import {
   TouchableOpacity,
   Dimensions
   /*, StyleSheet*/
+  
 } from "react-native";
+import {AsyncStorage} from 'react-native';
+// import console = require('console');
+// import console = require('console');
 import db from "../db";
+
 
 opponent = ""
 gameId = ""
 me = ""
 export default class SettingsScreen extends React.Component {
   static navigationOptions = {
-    title: 'app.json',
+    header  :null
   };
-
+state = {currentUser : ""}
   goal = 0;
+
   async componentDidMount(){
     const{navigation }=this.props
     this.opponent = navigation.getParam("name")
     this.me = await AsyncStorage.getItem("name")
     const result = await db.collection("Games").add({Player1: this.name, Player2: this.me, Score1: 0, Score2: 0, State1: "Playing", State2: "Playing", total1: 0, total2: 0, goal1: 0, Goal2: 0})
     this.gameId = result.id;
+  vthis.idk()
+  
+  idk = async() =>{
+    try {
+      const value = await AsyncStorage.getItem('name');
+      if (value !== null) {
+        // We have data!!
+        console.log("value is : ",value);
+        this.setState({currentUser : value})
+        
+      }
+    } catch (error) {
+      // Error retrieving data
+      console.log("value is wrong and it's : ",value);
+    }
   }
   generateButtons = () => {
     let elements = Array.from({
@@ -64,11 +85,14 @@ export default class SettingsScreen extends React.Component {
   };
 
   render() {
-    
+    const{navigation }=this.props
+    const name = navigation.getParam("name")
+    console.log("the name is : ",this.idk())
     return <View style={styles.container}>
-    {
-      console.log("Name is: ", this.opponent)
-    }
+    <View style={{paddingTop : "5%"}}>
+    {console.log("the player name inside the return is  :", this.state.currentUser)}
+    {this.state.currentUser != ""?
+    <View>
     <Game
       playerName = {this.opponent}
       color = "blue"
@@ -76,13 +100,19 @@ export default class SettingsScreen extends React.Component {
       goal={this.goal}
       gameId={this.gameId}
     />
-    <Game
-      playerName={this.me}
-      color="red"
-      elements={this.generateButtons()}
-      goal={this.goal}
-      gameId={this.gameId}
-    />
+  <Game
+    playerName={this.state.currentUser}
+    color="red"
+    elements={this.generateButtons()}
+    goal={this.goal}
+    gameId={this.gameId}
+  />
+  </View>
+  :null
+    }
+    
+    </View>
+
   </View>;
   }
 }
