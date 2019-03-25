@@ -129,19 +129,24 @@ export default class Game extends React.Component {
     return (
       <View style={[styles.container, {backgroundColor: this.state.color}]}>
         <View style={{ width: "80%" }}>
-          <Text style={{ textAlign: "center", fontWeight: "bold" }}>
-            {this.state.playerName}
+          <Text style={{ textAlign: "center", fontWeight: "bold" ,fontSize : 20, color : "white"}}>
+            {this.state.playerName} ({this.props.number})
           </Text>
+          <View style= {{backgroundColor: "lightblue",
+              width : "100%",
+              flexDirection: "row",
+              justifyContent: "space-evenly"}}>
           <Text
             style={{
               textAlign: "center",
               fontWeight: "bold",
-              backgroundColor: "lightgray",
-              borderRadius: 10
+              
+              // borderRadius: 10
             }}
           >
             {this.goal}
           </Text>
+          </View>
 
           {/* <TextInput
               style={{ height: 40, borderColor: "gray", borderWidth: 1 }}

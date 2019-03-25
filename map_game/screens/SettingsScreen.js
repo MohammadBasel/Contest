@@ -11,14 +11,35 @@ import {
   TouchableOpacity,
   Dimensions
   /*, StyleSheet*/
+  
 } from "react-native";
+import {AsyncStorage} from 'react-native';
+// import console = require('console');
+// import console = require('console');
 
 export default class SettingsScreen extends React.Component {
   static navigationOptions = {
-    title: 'app.json',
+    header  :null
   };
-
+state = {currentUser : ""}
   goal = 0;
+  componentDidMount (){
+    this.idk()
+  }
+  idk = async() =>{
+    try {
+      const value = await AsyncStorage.getItem('name');
+      if (value !== null) {
+        // We have data!!
+        console.log("value is : ",value);
+        this.setState({currentUser : value})
+        
+      }
+    } catch (error) {
+      // Error retrieving data
+      console.log("value is wrong and it's : ",value);
+    }
+  }
   generateButtons = () => {
     let elements = Array.from({
       length: 6
@@ -55,19 +76,31 @@ export default class SettingsScreen extends React.Component {
   render() {
     const{navigation }=this.props
     const name = navigation.getParam("name")
+    console.log("the name is : ",this.idk())
     return <View style={styles.container}>
+    <View style={{paddingTop : "5%"}}>
+    {console.log("the player name inside the return is  :", this.state.currentUser)}
+    {this.state.currentUser != ""?
+    <View>
     <Game
-      playerName = {name}
-      color = "blue"
-      elements={this.generateButtons()}
-      goal={this.goal}
-    />
-    <Game
-      playerName="Mohammad"
-      color="red"
-      elements={this.generateButtons()}
-      goal={this.goal}
-    />
+    playerName = "Mohammad"
+    color = "blue"
+    number = "1"
+    elements={this.generateButtons()}
+    goal={this.goal}
+  />
+  <Game
+    playerName={this.state.currentUser}
+    color="red"
+    number = "2"
+    elements={this.generateButtons()}
+    goal={this.goal}
+  />
+  </View>
+  :null
+    }
+    
+    </View>
   </View>;
   }
 }

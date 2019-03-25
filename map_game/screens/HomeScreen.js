@@ -29,8 +29,13 @@ export default class HomeScreen extends React.Component {
   login = async() =>{
      await db.collection("Players").doc(this.state.name).set({waiting : true,Latitude : 25.65, Longitude : 25.65})
       this.push;
-      AsyncStorage.setItem("name", this.state.name);
-      this.props.navigation.navigate("Links")
+      try {
+        await AsyncStorage.setItem("name", this.state.name);
+      } catch (error) {
+        // Error saving data
+      }
+      
+      this.props.navigation.navigate("Maps")
 
   }
 
@@ -41,7 +46,6 @@ export default class HomeScreen extends React.Component {
        <View style={styles.welcomeContainer}>
       <Text style={{ paddingTop: "50%" }}>Enter name to play</Text>
        <TextInput
-                secureTextEntry={true}
                 style={{ paddingTop: 20 }}
                 autoCapitalize="none"
                 placeholder="name"
