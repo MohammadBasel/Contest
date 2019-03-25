@@ -16,16 +16,27 @@ import {
 import {AsyncStorage} from 'react-native';
 // import console = require('console');
 // import console = require('console');
+import db from "../db";
 
+
+opponent = ""
+gameId = ""
+me = ""
 export default class SettingsScreen extends React.Component {
   static navigationOptions = {
     header  :null
   };
 state = {currentUser : ""}
   goal = 0;
-  componentDidMount (){
-    this.idk()
-  }
+
+  async componentDidMount(){
+    const{navigation }=this.props
+    this.opponent = navigation.getParam("name")
+    this.me = await AsyncStorage.getItem("name")
+    const result = await db.collection("Games").add({Player1: this.name, Player2: this.me, Score1: 0, Score2: 0, State1: "Playing", State2: "Playing", total1: 0, total2: 0, goal1: 0, Goal2: 0})
+    this.gameId = result.id;
+  vthis.idk()
+  
   idk = async() =>{
     try {
       const value = await AsyncStorage.getItem('name');
@@ -83,24 +94,25 @@ state = {currentUser : ""}
     {this.state.currentUser != ""?
     <View>
     <Game
-    playerName = "Mohammad"
-    color = "blue"
-    number = "1"
-    elements={this.generateButtons()}
-    goal={this.goal}
-  />
+      playerName = {this.opponent}
+      color = "blue"
+      elements={this.generateButtons()}
+      goal={this.goal}
+      gameId={this.gameId}
+    />
   <Game
     playerName={this.state.currentUser}
     color="red"
-    number = "2"
     elements={this.generateButtons()}
     goal={this.goal}
+    gameId={this.gameId}
   />
   </View>
   :null
     }
     
     </View>
+
   </View>;
   }
 }

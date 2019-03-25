@@ -7,6 +7,7 @@ import {
   Button,
   TextInput
 } from "react-native";
+import db from "../db";
 
 export default class Game extends React.Component {
   state = {
@@ -24,11 +25,23 @@ export default class Game extends React.Component {
   score = 0;
   lastscore = 0;
   status = "Playing";
-  componentWillMount() {
+  async componentWillMount() {
     this.setState({ playerName: this.props.playerName });
+    let result = null
+    if(this.state.color === "blue"){
+      result = await db.collection("Games").doc(this.props.gameId).update({goal1: this.props.goal})
+    }
+    else{
+      result = await db.collection("Games").doc(this.props.gameId).update({Goal2: this.props.goal})
+    }
+    db.collection("Games").onSnapshot(querySnapshot => {
+      const id = querySnapshot.id;
+      const zone = { id, ...querySnapshot.data() };
+      this.setState({ zone, coordsArr, user });
+    });
     // this.startTimer();
   }
-
+  
   //   startTimer = () => {
   //     timer = setInterval(
   //       () => this.setState({ time: this.state.time - 1 }),
@@ -55,7 +68,7 @@ export default class Game extends React.Component {
     this.setGoal();
   };
 
-  setGoal = () => {
+  setGoal = async  () => {
     // this.goal =
     //   this.elements
     //     .slice(0, firstpoint)
@@ -67,6 +80,13 @@ export default class Game extends React.Component {
     this.goal = this.elements
       .slice(0, 4)
       .reduce((acc, curent) => acc + curent, 0);
+
+      if(this.state.color === "blue"){
+        result = await db.collection("Games").doc(this.props.gameId).update({goal1: this.goal})
+      }
+      else{
+        result = await db.collection("Games").doc(this.props.gameId).update({Goal2: this.goal})
+      }
 
     for (let i = 0; i < this.elements.length; i++) {
       firstpoint = Math.floor(Math.random() * 6);
