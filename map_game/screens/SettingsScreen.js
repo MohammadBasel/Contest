@@ -12,6 +12,7 @@ import {
   Dimensions
   /*, StyleSheet*/
 } from "react-native";
+import db from "../db";
 
 export default class SettingsScreen extends React.Component {
   static navigationOptions = {
@@ -19,6 +20,8 @@ export default class SettingsScreen extends React.Component {
   };
 
   goal = 0;
+  async componentDidMount(){
+  }
   generateButtons = () => {
     let elements = Array.from({
       length: 6
@@ -56,6 +59,9 @@ export default class SettingsScreen extends React.Component {
     const{navigation }=this.props
     const name = navigation.getParam("name")
     return <View style={styles.container}>
+    {
+      console.log("Name is: ", name)
+    }
     <Game
       playerName = {name}
       color = "blue"

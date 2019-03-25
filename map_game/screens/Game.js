@@ -7,6 +7,7 @@ import {
   Button,
   TextInput
 } from "react-native";
+import db from "../db";
 
 export default class Game extends React.Component {
   state = {
@@ -28,7 +29,7 @@ export default class Game extends React.Component {
     this.setState({ playerName: this.props.playerName });
     // this.startTimer();
   }
-
+  
   //   startTimer = () => {
   //     timer = setInterval(
   //       () => this.setState({ time: this.state.time - 1 }),
