@@ -6,7 +6,9 @@ import TabBarIcon from '../components/TabBarIcon';
 import HomeScreen from '../screens/HomeScreen';
 import LinksScreen from '../screens/LinksScreen';
 import SettingsScreen from '../screens/SettingsScreen';
-
+import AntDesign from '@expo/vector-icons/AntDesign';
+import FontAwesome from '@expo/vector-icons/FontAwesome';
+import {AsyncStorage} from 'react-native';
 const HomeStack = createStackNavigator({
   Home: HomeScreen,
 });
@@ -14,6 +16,7 @@ const HomeStack = createStackNavigator({
 HomeStack.navigationOptions = {
   tabBarLabel: 'Home',
   tabBarIcon: ({ focused }) => (
+
     <TabBarIcon
       focused={focused}
       name={
@@ -30,11 +33,13 @@ const LinksStack = createStackNavigator({
 });
 
 LinksStack.navigationOptions = {
+  visible  : false,
   tabBarLabel: 'Links',
   tabBarIcon: ({ focused }) => (
-    <TabBarIcon
+    <AntDesign
       focused={focused}
-      name={Platform.OS === 'ios' ? 'ios-link' : 'md-link'}
+      
+      name="login" size={25} color='lightgray' 
     />
   ),
 };
@@ -44,11 +49,10 @@ const SettingsStack = createStackNavigator({
 });
 
 SettingsStack.navigationOptions = {
-  tabBarLabel: 'Settings',
+  tabBarLabel: 'HomeGame',
   tabBarIcon: ({ focused }) => (
-    <TabBarIcon
-      focused={focused}
-      name={Platform.OS === 'ios' ? 'ios-options' : 'md-options'}
+    <FontAwesome
+    name="gamepad" size={25} color='lightgray' 
     />
   ),
 };
@@ -56,5 +60,6 @@ SettingsStack.navigationOptions = {
 export default createBottomTabNavigator({
   HomeStack,
   LinksStack,
+  
   SettingsStack,
 });

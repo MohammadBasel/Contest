@@ -3,10 +3,7 @@ import { ScrollView, StyleSheet } from 'react-native';
 import { ExpoLinksView } from '@expo/samples';
 
 export default class LinksScreen extends React.Component {
-  static navigationOptions = {
-    title: 'Links',
-  };
-
+  static navigationOptions = { header: null }
   render() {
     return (
       <ScrollView style={styles.container}>
