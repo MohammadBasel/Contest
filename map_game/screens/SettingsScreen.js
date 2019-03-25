@@ -14,6 +14,9 @@ import {
 } from "react-native";
 import db from "../db";
 
+opponent = ""
+gameId = ""
+me = ""
 export default class SettingsScreen extends React.Component {
   static navigationOptions = {
     title: 'app.json',
@@ -21,6 +24,11 @@ export default class SettingsScreen extends React.Component {
 
   goal = 0;
   async componentDidMount(){
+    const{navigation }=this.props
+    this.opponent = navigation.getParam("name")
+    this.me = await AsyncStorage.getItem("name")
+    const result = await db.collection("Games").add({Player1: this.name, Player2: this.me, Score1: 0, Score2: 0, State1: "Playing", State2: "Playing", total1: 0, total2: 0, goal1: 0, Goal2: 0})
+    this.gameId = result.id;
   }
   generateButtons = () => {
     let elements = Array.from({
@@ -56,23 +64,24 @@ export default class SettingsScreen extends React.Component {
   };
 
   render() {
-    const{navigation }=this.props
-    const name = navigation.getParam("name")
+    
     return <View style={styles.container}>
     {
-      console.log("Name is: ", name)
+      console.log("Name is: ", this.opponent)
     }
     <Game
-      playerName = {name}
+      playerName = {this.opponent}
       color = "blue"
       elements={this.generateButtons()}
       goal={this.goal}
+      gameId={this.gameId}
     />
     <Game
-      playerName="Mohammad"
+      playerName={this.me}
       color="red"
       elements={this.generateButtons()}
       goal={this.goal}
+      gameId={this.gameId}
     />
   </View>;
   }
